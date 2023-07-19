@@ -40,6 +40,10 @@ const userSchema = mongoose.Schema(
       required: true,
       enum: ["YES", "NO"],
     },
+    score: {
+      type: Number,
+      default: 0,
+    },
     // captcha: {
     //   type: String,
     // },
