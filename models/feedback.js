@@ -6,12 +6,15 @@ const feedbackSchema= mongoose.Schema({
     },
     feedbackquest:{
         type:String,
-        required:true
+       
     },
     feedbackoptions:[{
         type:String,
-        required:true,
         
-    }]
+        
+    }],
+    feedbackres:{
+        type:String,
+    }
 })
 module.exports=mongoose.model("feedback",feedbackSchema)

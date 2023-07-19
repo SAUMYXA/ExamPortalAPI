@@ -9,4 +9,18 @@ const getFeedbackquest=asyncHandler(async(req,res)=>{
     const feedback=await Feedback.find({})
     res.status(201).json({feedback})
 })
-module.exports={addfeedbackques,getFeedbackquest}
+const addFeedback=asyncHandler(async(req,res)=>{
+    const newfeedbackres= await Feedback.create({  
+        user_id:req.body.user_id,
+        feedbackres:req.body.feedbackres
+    })
+    const feedbackData=await newfeedbackres.save();
+    res.status(201).json({msg:"New feedback response has been added",feedbackData})
+      
+})
+const getFeedbacks=asyncHandler(async(req,res)=>{
+    // const feedbackres = req.body.feedbackres;
+    const feedback=await Feedback.findOne()
+        res.status(201).json({feedback})
+})
+module.exports={addfeedbackques,getFeedbackquest,addFeedback,getFeedbacks}
