@@ -8,10 +8,10 @@ const feedbackSchema= mongoose.Schema({
         type:String,
         required:true
     },
-    feedback:{
+    feedbackoptions:[{
         type:String,
         required:true,
-        enum:["Very Satisfied ","Satisfied","Neutral","Dissatisfied"]
-    }
+        
+    }]
 })
 module.exports=mongoose.model("feedback",feedbackSchema)
