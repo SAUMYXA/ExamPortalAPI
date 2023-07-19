@@ -60,46 +60,6 @@ const questionSchema = new mongoose.Schema({
 }, { versionKey: false });
 // questionSchema.plugin(uniqueValidator);
 
-// const questionSchema = new mongoose.Schema({
-//   question: {
-//     type:mongoose.Schema.Types.ObjectId,
-//     required: true,
-//     trim:true,
-//   },
-//   category: {
-//     type: String,
-//     required: true,
-//     trim:true,
-//   },
-//   options: [{
-//     opt1:{
-//       type:mongoose.Schema.Types.ObjectId,
-//       required:true,
-//       trim:true,
-//     },
-//     opt2:{
-//       type:mongoose.Schema.Types.ObjectId,
-//       required:true,
-//       trim:true,
-//     },
-//     opt3:{
-//       type:mongoose.Schema.Types.ObjectId,
-//       required:true,
-//       trim:true,
-//     },
-//     opt4:{
-//       type:mongoose.Schema.Types.ObjectId,
-//       required:true,
-//       trim:true,
-//     }
-//   } 
-//   ],
-//   correctAns:{
-//     type:mongoose.Schema.Types.ObjectId,
-//     required:true,
-//     trim:true,
-//   },
-// },{versionKey:false});
 // questionSchema.pre('save', function (next) {
 //   if (!this.questionId) {
 //     this.questionId = generateCustomId();
