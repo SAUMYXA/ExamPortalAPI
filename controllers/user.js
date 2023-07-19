@@ -38,4 +38,8 @@ const registerUser = asyncHandler(async (req, res) => {
   });
   res.status(201).json({msg:"User has been successfully added.",createUser})
 });
-module.exports=registerUser;
+const getUsers=asyncHandler(async(req,res)=>{
+    const results= await user.find({});
+    res.status(201).json({result})
+})
+module.exports={registerUser,getUsers};
