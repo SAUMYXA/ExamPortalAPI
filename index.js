@@ -5,7 +5,7 @@ const connectDB=require('./config/db');
 app.use(express.json());
 connectDB();
 app.use("/api/v1", require('./routes/questions'));
-app.use('/api/v2',require('./routes/user'))
+app.use('/api/v2',require('./routes/user'));
 const port=process.env.PORT;
 app.listen(port,()=>{
     console.log(`Server is running at port ${port}`)

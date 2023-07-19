@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const user=require('../models/user')
-
 const registerUser = asyncHandler(async (req, res) => {
     const {
         name,
@@ -39,7 +38,12 @@ const registerUser = asyncHandler(async (req, res) => {
   res.status(201).json({msg:"User has been successfully added.",createUser})
 });
 const getUsers=asyncHandler(async(req,res)=>{
-    const results= await user.find({});
-    res.status(201).json({result})
+let results= await user.find({});
+    res.status(201).json({msg:"all the candidates are given below",results})
 })
-module.exports={registerUser,getUsers};
+const hostlerFilter=asyncHandler(async(req,res)=>{
+    let data= await user.find({ hostler: req.params.key, gender:req.params.keyy })
+    res.status(201).json({data})
+})
+
+module.exports={registerUser,getUsers,hostlerFilter};
