@@ -3,5 +3,5 @@ const {registerUser,getUsers, hostlerFilter} = require('../controllers/user');
 const router=express.Router();
 router.post('/addcandidate',registerUser);
 router.get('/getcandidates',getUsers);
-router.get('/filterHostler/:key/:keyy',hostlerFilter);
+router.get('/filter/:Hostler/:Gender',hostlerFilter);
 module.exports=router;

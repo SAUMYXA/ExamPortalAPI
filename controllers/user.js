@@ -42,7 +42,7 @@ let results= await user.find({});
     res.status(201).json({msg:"all the candidates are given below",results})
 })
 const hostlerFilter=asyncHandler(async(req,res)=>{
-    let data= await user.find({ hostler: req.params.key, gender:req.params.keyy })
+    let data= await user.find({ hostler: req.params.Hostler, gender:req.params.Gender })
     res.status(201).json({data})
 })
 
