@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Question = require("../models/question");
+const Question = require("../models/questions");
 const {
   addquestions,
   getquestions,
