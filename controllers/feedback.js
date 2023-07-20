@@ -20,7 +20,7 @@ const addFeedback=asyncHandler(async(req,res)=>{
 })
 const getFeedbacks=asyncHandler(async(req,res)=>{
     // const feedbackres = req.body.feedbackres;
-    const feedback=await Feedback.findOne()
+    const feedback=await Feedback.find().select("feedbackres")
         res.status(201).json({feedback})
 })
 module.exports={addfeedbackques,getFeedbackquest,addFeedback,getFeedbacks}

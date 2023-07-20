@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const user=require('../models/user')
+const jwt=require('jsonwebtoken')
+const dotenv=require("dotenv").config();
 const registerUser = asyncHandler(async (req, res) => {
     const {
         name,
@@ -45,5 +47,31 @@ const hostlerFilter=asyncHandler(async(req,res)=>{
     let data= await user.find({ hostler: req.params.Hostler, gender:req.params.Gender })
     res.status(201).json({data})
 })
+const userlogin=asyncHandler(async(req,res,next)=>{
+  const{email,studentNo}=req.body;
+  const currentuser=await user.findOne({email,studentNo})
+  if(!currentuser){
+    res.status(401).json({msg:"user does not exist!"})
+  }
+  const token=jwt.sign({
+    name:currentuser.name,
+    email: currentuser.email,
+      studentNo: currentuser.studentNo,
+      branch: currentuser.branch,
+      section: currentuser.section,
+      phoneNo:currentuser.phoneNo,
+      hostler:currentuser.hostler,
+      gender:currentuser.gender,
+      
+  },
+    process.env.SECRET_KEY,
+    {
+      // expiresIn:"3h"
+    }
+  
 
-module.exports={registerUser,getUsers,hostlerFilter};
+  )
+  res.status(201).json({email:email,studentNo:studentNo,token:token})
+})
+
+module.exports={registerUser,getUsers,hostlerFilter,userlogin};

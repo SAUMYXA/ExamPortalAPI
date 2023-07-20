@@ -3,16 +3,16 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      // required: true,
     },
     section: {
       type: String,
-      required: true,
+      // required: true,
       enum: [1, 2, 3],
     },
     branch: {
       type: String,
-      required: true,
+      // required: true,
     },
     studentNo: {
       type: Number,
@@ -20,11 +20,11 @@ const userSchema = mongoose.Schema(
     },
     registrationNo: {
       type: Number,
-      required: true,
+      // required: true,
     },
     phoneNo: {
       type: Number,
-      required: true,
+      // required: true,
     },
     email: {
       type: String,
@@ -32,12 +32,12 @@ const userSchema = mongoose.Schema(
     },
     gender: {
       type: String,
-      required: true,
+      // required: true,
       enum: ["Female", "Male"],
     },
     hostler: {
       type: String,
-      required: true,
+      // required: true,
       enum: ["YES", "NO"],
     },
     score: {
