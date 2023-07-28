@@ -20,8 +20,6 @@ const registerUser = asyncHandler(async (req, res) => {
         .status(400)
         .json({ msg: "already registered." });
     }
-   
- 
   if (!registrationNo || !studentNo) {
     res.status(400).json({ msg: "fill all the credentials!" });
   }
@@ -66,11 +64,24 @@ const userlogin=asyncHandler(async(req,res,next)=>{
   },
     process.env.SECRET_KEY,
     {
-      // expiresIn:"3h"
+       expiresIn:"24h"
     }
   
 
   )
+ 
+  let oldTokens=currentuser.tokens || []
+  if(oldTokens.length){
+    oldTokens=oldTokens.filter(t=>{
+      timeDiff=(Date.now() - parseInt(t.signedAt))/1000
+      if(timeDiff<86400){
+        return t
+      }
+    })
+  }
+  await user.findByIdAndUpdate(currentuser._id,{tokens:[...oldTokens,{token,signedAt:Date.now().toString()}]})
+
+
   res.status(201).json({email:email,studentNo:studentNo,token:token})
 })
 
