@@ -84,33 +84,55 @@ const userlogin=asyncHandler(async(req,res,next)=>{
 
   res.status(201).json({email:email,studentNo:studentNo,token:token})
 })
-const validateToken=asyncHandler(async(req,res,next)=>{
-  let token;
-  let authHeader=req.headers.authorization||req.headers.Authorization
-  if(authHeader && authHeader.startsWith("JWT")){
-  token=authHeader.split(" ")[1];
-  jwt.verify(token,process.env.SECRET_KEY,(err,decoded)=>{
-      if(err){
-          res.status(401);
-          throw new error("User is not authorized")
-      }
-      req.user=decoded.user;
-      next();
-      // console.log(decoded)
-  })
-  if(!token){
-      res.status(401);
-      throw new Error("User is not authorised")
+// const validateToken=asyncHandler(async(req,res,next)=>{
+//   let token;
+//   let authHeader=req.headers.authorization||req.headers.Authorization
+//   if(authHeader && authHeader.startsWith("Bearer")){
+//   token=authHeader.split(" ")[1];
+//   jwt.verify(token,process.env.SECRET_KEY,(err,decoded)=>{
+//       if(err){
+//           res.status(401).json({msg:"User is not authorized"})
+//       }
+//       req.user=decoded.user;
+//       next();
+//       // console.log(decoded)
+//   })
+//   if(!token){
+//       res.status(401).json({msg:"User is not authorized"})
+//   }
+//   }
+//   })
+// const userlogout=asyncHandler(async(req,res)=>{
+
+//   if(req.headers && req.headers.authorization){
+//     const token = req.headers.authorization.split(" ")[1]
+//     if(!token){
+//       return res.status(401).json({success:false,msg:"Authorisation failed"})
+//     }
+//     const tokens=req.user.tokens;
+//     const newTokens=tokens.filter(t=>t.token!==token)
+//     await user.findByIdAndUpdate(req.user._id,{tokens:newTokens})
+//     res.json({success:true,msg:"Logout Successfully!"})
+//   }else {
+//     return res.status(401).json({ success: false, msg: "Authorization failed" });
+//   }
+// })
+const userlogout = asyncHandler(async (req, res) => {
+  const token = req.headers.authorization.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ success: false, msg: "Authorization failed" });
   }
+
+  const loggedInUser = await user.findOneAndUpdate(
+    { tokens: { $elemMatch: { token } } },
+    { $pull: { tokens: { token } } },
+    { new: true }
+  );
+
+  if (!loggedInUser) {
+    return res.status(401).json({ success: false, msg: "Authorization failed" });
   }
-  })
-const userlogout=asyncHandler(async(req,res)=>{
-  if(req.headers && req.headers.authorization){
-    const token = req.headers.authorization.split[1]
-    if(!token){
-      return res.status(401).json({success:false,msg:"Authorisation failed"})
-    }
-    
-  }
-})
-module.exports={registerUser,getUsers,hostlerFilter,userlogin,userlogout,validateToken};
+
+  res.json({ success: true, msg: "Logout Successfully!" });
+});
+module.exports={registerUser,getUsers,hostlerFilter,userlogin,userlogout};
