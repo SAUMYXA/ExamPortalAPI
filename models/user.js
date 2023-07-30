@@ -44,7 +44,7 @@ const userSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    tokens:[{type:Object}]
+    tokens: [{ type: Object }],
     // captcha: {
     //   type: String,
     // },

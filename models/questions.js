@@ -17,47 +17,50 @@ const mongoose = require("mongoose");
 //   }
 //   return customId;
 // }
-const questionSchema = new mongoose.Schema({
-  question: {
-    type: String,
-    required: true,
-    trim: true,
-   
-  },
-  category: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  options: [{
-    opt1: {
+const questionSchema = new mongoose.Schema(
+  {
+    question: {
       type: String,
       required: true,
       trim: true,
     },
-    opt2: {
+    category: {
       type: String,
       required: true,
       trim: true,
     },
-    opt3: {
+    options: [
+      {
+        opt1: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+        opt2: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+        opt3: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+        opt4: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+      },
+    ],
+    correctAns: {
       type: String,
       required: true,
       trim: true,
     },
-    opt4: {
-      type: String,
-      required: true,
-      trim: true,
-    }
-  }],
-  correctAns: {
-    type: String,
-    required: true,
-    trim: true,
- 
   },
-}, { versionKey: false });
+  { versionKey: false }
+);
 // questionSchema.plugin(uniqueValidator);
 
 // questionSchema.pre('save', function (next) {
@@ -75,7 +78,5 @@ const questionSchema = new mongoose.Schema({
 //   next();
 // });
 
-
-let Question=mongoose.model("question", questionSchema);
+let Question = mongoose.model("question", questionSchema);
 module.exports = Question;
-
