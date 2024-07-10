@@ -10,7 +10,6 @@ exports.getLanguages = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
-
 exports.startExam = async (req, res) => {
   const { userId, language } = req.body;
 

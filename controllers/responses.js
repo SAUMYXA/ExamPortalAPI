@@ -87,6 +87,45 @@ const saveResponse = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+const Response = require('../models/responses'); 
+
+const getRanking = async (req, res) => {
+  try {
+    // Fetch all users
+    const users = await User.find();
+
+    // Fetch the latest response time for each user
+    const userCompletionTimes = await Promise.all(users.map(async (user) => {
+      const latestResponse = await Response.findOne({ userID: user._id }).sort({ createdAt: -1 });
+      return {
+        userID: user._id,
+        score: user.score,
+        latestResponseTime: latestResponse ? latestResponse.createdAt : new Date(0)
+      };
+    }));
+
+    // Sort users by score (descending) and by latest response time (ascending) for ties
+    userCompletionTimes.sort((a, b) => {
+      if (b.score === a.score) {
+        return new Date(a.latestResponseTime) - new Date(b.latestResponseTime);
+      }
+      return b.score - a.score;
+    });
+
+    // Format the response
+    const ranking = userCompletionTimes.map((user, index) => ({
+      rank: index + 1,
+      userID: user.userID,
+      score: user.score,
+      latestResponseTime: user.latestResponseTime
+    }));
+
+    res.status(200).json(ranking);
+  } catch (error) {
+    console.error("Error fetching ranking:", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 
-module.exports = { scoring,getScore,saveResponse};
+module.exports = { scoring,getScore,saveResponse,getRanking};
