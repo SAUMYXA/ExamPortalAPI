@@ -8,6 +8,7 @@ app.use("/api/v1", require("./routes/questions"));
 app.use("/api/v2", require("./routes/user"));
 app.use("/api/v3", require("./routes/responses"));
 app.use("/api/v4", require("./routes/feedback"));
+app.use('/api/v5', require("./routes/examRoutes"));
 const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Server is running at port ${port}`);

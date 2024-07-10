@@ -34,11 +34,11 @@ const scoring = asyncHandler(async (req, res) => {
     let updatedScore = user.score;
     if (markedAns === question.correctAns) {
       user.score += 1;
-      await user.save();
+      await user.save(); 
       updatedScore = user.score;
     }
 
-    res.status(201).json({ score: updatedScore });
+    res.status(201).json({ score: updatedScore,newResponse });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ msg: "Internal Server Error" });
@@ -62,4 +62,31 @@ const getScore = asyncHandler(async (req, res) => {
     res.status(500).json({ msg: 'Internal Server Error' });
   }
 });
-module.exports = { scoring,getScore};
+const saveResponse = async (req, res) => {
+  const { userID } = req.params;
+
+  try {
+    // Check if the user exists
+    const user = await User.findById(userID);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find all responses for the given userID
+    const responses = await Responses.find({ userID });
+
+    // Include the user's score in the response
+    const userScore = user.score;
+
+    res.status(200).json({
+      userScore,
+      responses
+    });
+  } catch (error) {
+    console.error("Error fetching responses:", error.message);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+module.exports = { scoring,getScore,saveResponse};
